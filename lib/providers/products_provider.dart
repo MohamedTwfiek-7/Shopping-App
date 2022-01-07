@@ -38,6 +38,10 @@ class Products with ChangeNotifier{
     return [..._items]; //copy form the list (pointer)
   }
 
+  List<Product> get favoritesitems{
+    return _items.where((element) => element.isFavorite).toList();
+  }
+
   Product findByID (String id){
     return _items.firstWhere((element) => element.id == id);
   }
