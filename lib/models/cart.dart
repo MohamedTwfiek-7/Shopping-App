@@ -21,15 +21,24 @@ class Cart with ChangeNotifier {
     return {..._items}; //copy form the map (pointer)
   }
 
-  int get itemsCount{
+  int get itemsCount {
     return _items.length; //copy form the list (pointer)
+  }
+
+  double get totalAmount {
+    double total = 0.0;
+    _items.forEach((key, cart) {
+      total += cart.price * cart.quantity;
+    });
+    return total;
   }
 
   void addItem(String productId, String title, double price) {
     if (_items.containsKey(productId)) {
       _items.update(
           productId,
-          (oldValue) => CartItem(
+              (oldValue) =>
+              CartItem(
                 id: oldValue.id,
                 title: oldValue.title,
                 price: oldValue.price,
@@ -38,12 +47,13 @@ class Cart with ChangeNotifier {
     } else {
       _items.putIfAbsent(
         productId,
-        () => CartItem(
-          id: DateTime.now().toString(),
-          title: title,
-          price: price,
-          quantity: 1,
-        ),
+            () =>
+            CartItem(
+              id: DateTime.now().toString(),
+              title: title,
+              price: price,
+              quantity: 1,
+            ),
       );
     }
     notifyListeners();
